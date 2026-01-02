@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/client"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String   // Hashed in production
+  role      String   @default("student") // 'admin', 'student'
+  name      String?
+  createdAt DateTime @default(now())
+
+  events    Event[]
+}
+
+model Club {
+  id          String   @id @default(cuid())
+  name        String
+  category    String
+  description String
+  image       String?
+  banner      String?
+  isVerified  Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  
+  events      Event[]
+  members     Int      @default(0)
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  date        DateTime
+  location    String
+  description String?
+  
+  clubId      String?
+  club        Club?     @relation(fields: [clubId], references: [id])
+
+  creatorId   String
+  creator     User     @relation(fields: [creatorId], references: [id])
+}
+
+
+
+model Report {
+  id        String   @id @default(cuid())
+  reason    String
+  details   String
+  status    String   @default("pending") // pending, resolved
+  createdAt DateTime @default(now())
+}
+
+model Announcement {
+  id        String   @id @default(cuid())
+  title     String
+  content   String
+  createdAt DateTime @default(now())
+}
