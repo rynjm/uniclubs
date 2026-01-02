@@ -28,5 +28,3 @@ build/
 dist/
 
 # Generated Prisma Client
-# Generated Prisma Client
-src/generated/client/
