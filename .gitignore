@@ -26,3 +26,6 @@ yarn-error.log*
 out/
 build/
 dist/
+
+# Generated Prisma Client
+frontend/src/generated/client/
