@@ -1,6 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import db from "@/lib/db";
+import { Club } from "@prisma/client";
+
+export const dynamic = 'force-dynamic';
 
 export default async function ClubsPage() {
     const clubs = await db.club.findMany();
@@ -22,7 +25,7 @@ export default async function ClubsPage() {
                 </div>
             ) : (
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '2rem' }}>
-                    {clubs.map((club) => (
+                    {clubs.map((club: Club) => (
                         <Link href={`/clubs/${club.id}`} key={club.id}>
                             <div className="glass-panel" style={{ overflow: 'hidden', height: '100%', transition: 'transform 0.2s' }}>
                                 <div style={{ position: 'relative', height: '200px', width: '100%' }}>

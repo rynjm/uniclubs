@@ -1,10 +1,13 @@
 import Link from "next/link";
 import db from "@/lib/db";
+import { User, Club } from "@prisma/client";
 import { redirect } from "next/navigation";
 import { DeleteClubButton, DeleteUserButton } from "@/components/admin/DeleteButtons";
 
 // Mock Authentication (In real app, use useSession or cookies)
 const CURRENT_USER_EMAIL = 'admin@uni.edu';
+
+export const dynamic = 'force-dynamic';
 
 export default async function AdminDashboard() {
     const user = await db.user.findUnique({
@@ -57,7 +60,7 @@ export default async function AdminDashboard() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {users.map(u => (
+                                {users.map((u: User) => (
                                     <tr key={u.id} style={{ borderBottom: '1px solid var(--glass-border)' }}>
                                         <td style={{ padding: '1rem 0' }}>{u.name}</td>
                                         <td style={{ padding: '1rem 0' }}>{u.email}</td>
@@ -95,7 +98,7 @@ export default async function AdminDashboard() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {clubs.map(c => (
+                                {clubs.map((c: Club) => (
                                     <tr key={c.id} style={{ borderBottom: '1px solid var(--glass-border)' }}>
                                         <td style={{ padding: '1rem 0' }}>{c.name}</td>
                                         <td style={{ padding: '1rem 0' }}>{c.category}</td>
